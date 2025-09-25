@@ -7,6 +7,8 @@ from config.config import load_config
 from database.database import db_init
 from keyboards.menu_commands import set_main_menu
 from services.file_handling import prepare_book
+from handlers.other import other_router
+from handlers.user import user_router
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +29,12 @@ async def main():
     logger.info("The book is uploaded. Total pages: %d", len(book))
 
     db: dict = db_init()
+    dp.workflow_data.update(book=book, db=db)
 
     await set_main_menu(bot)
+
+    dp.include_router(user_router)
+    dp.include_router(other_router)
     await dp.start_polling(bot)
 
 
