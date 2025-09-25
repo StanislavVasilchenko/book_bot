@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 
 from config.config import load_config
 from database.database import db_init
+from keyboards.menu_commands import set_main_menu
 from services.file_handling import prepare_book
 
 logger = logging.getLogger(__name__)
@@ -27,6 +28,7 @@ async def main():
 
     db: dict = db_init()
 
+    await set_main_menu(bot)
     await dp.start_polling(bot)
 
 
